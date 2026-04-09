@@ -1,28 +1,50 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from tokenizer import count_tokens
+
+from tokenizer import get_token_importance, clean_tokens
 from pricing import calculate_cost
 
 app = FastAPI()
 
+
 class PromptRequest(BaseModel):
     prompt: str
-    model: str = "gpt-4o-mini"
+    model: str
+
+
+def count_tokens(text):
+    return len(clean_tokens(text))
+
+
+@app.get("/")
+def home():
+    return {"message": "TokenScope API Running 🚀"}
+
 
 @app.post("/analyze")
-def analyze_prompt(data: PromptRequest):
-    input_tokens = count_tokens(data.prompt, data.model)
+def analyze(req: PromptRequest):
+    prompt = req.prompt
 
-    # temporary assumption (later replace with real API response)
-    output_tokens = int(input_tokens * 0.5)
-
+    input_tokens = count_tokens(prompt)
+    output_tokens = 2
     total_tokens = input_tokens + output_tokens
-    cost = calculate_cost(data.model, input_tokens, output_tokens)
+
+    cost = calculate_cost(total_tokens, req.model)
+
+    token_importance = get_token_importance(prompt)
+
+    # 🔥 Filter LOW tokens
+    filtered_tokens = {
+        k: v for k, v in token_importance.items()
+        if v["level"] != "LOW"
+    }
 
     return {
-        "model": data.model,
+        "model": req.model,
         "input_tokens": input_tokens,
         "output_tokens": output_tokens,
         "total_tokens": total_tokens,
-        "cost_usd": cost
+        "cost_usd": cost,
+        "token_importance": token_importance,
+        "important_tokens_only": filtered_tokens
     }

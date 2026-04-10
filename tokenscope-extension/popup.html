@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TokenScope</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      width: 320px;
+      padding: 12px;
+      background: #0f172a;
+      color: white;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      border-radius: 8px;
+      padding: 8px;
+      border: none;
+      outline: none;
+      background: #1e293b;
+      color: white;
+    }
+
+    button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #3b82f6;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #2563eb;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    .highlight-high { color: #ef4444; font-weight: bold; }
+    .highlight-medium { color: #f59e0b; font-weight: bold; }
+    .highlight-low { color: #9ca3af; }
+
+    .copy-btn {
+      background: #10b981;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h3>🔥 TokenScope</h3>
+
+<textarea id="prompt" rows="4" placeholder="Paste your prompt..."></textarea>
+
+<button id="analyzeBtn">Analyze</button>
+
+<div id="result"></div>
+
+<!-- VERY IMPORTANT -->
+<script src="popup.js"></script>
+
+</body>
+</html>
